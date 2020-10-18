@@ -1,3 +1,6 @@
+import typing as tp
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -18,14 +21,15 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
         letter = plaintext[i: i + 1]
         x = ord(letter)
 
-        if (x in range(65, 90 - shift + 1)) or (x in range(97, 122 - shift + 1)):  # main body
-            x = x + shift
-        elif (x in range(90 - shift + 1, 91)) or (x in range(122 - shift + 1, 123)):  # tail (xyz)
+        if (x in range(ord('A'), ord('Z') - shift + 1)) or (x in range(ord('a'), ord('z') - shift + 1)):  # main body
+            x += shift
+        elif (x in range(ord('Z') - shift + 1, ord('Z') + 1)) or (
+                x in range(ord('z') - shift + 1, ord('z') + 1)):  # tail (xyz)
             x = x - 26 + shift
         else:  # other cases
             x = x
 
-        ciphertext = ciphertext + chr(x)
+        ciphertext += chr(x)
     return ciphertext
 
 
@@ -43,24 +47,24 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    shift = shift % 26  # 26 = number of letters in the eng alphabet
+    shift %= 26  # 26 = number of letters in the eng alphabet
 
     for i in range(0, len(ciphertext)):
         letter = ciphertext[i: i + 1]
         x = ord(letter)
 
-        if (x in range(65 + shift, 91)) or (x in range(97 + shift, 123)):  # main body
-            x = x - shift
-        elif (x in range(65, 65 + shift)) or (x in range(97, 97 + shift)):  # head (abc)
+        if (x in range(ord('A') + shift, ord('Z')+1)) or (x in range(ord('a') + shift, ord('z') + 1)):  # main body
+            x -= shift
+        elif (x in range(ord('A'), ord('A') + shift)) or (x in range(ord('a'), ord('a') + shift)):  # head (abc)
             x = x + 26 - shift
         else:  # other cases
             x = x
 
-        plaintext = plaintext + chr(x)
+        plaintext += chr(x)
     return plaintext
 
 
-def caesar_breaker(ciphertext: str, dictionary: set()) -> int:
+def caesar_breaker(ciphertext: str, dictionary: tp.Set[str]) -> int:
     """
     >>> d = {"python", "java", "ruby"}
     >>> caesar_breaker("python", d)
