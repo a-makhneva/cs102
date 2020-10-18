@@ -1,5 +1,6 @@
 import random
-from typing import Tuple
+import typing as tp
+
 
 def is_prime(n: int) -> bool:
     """
@@ -12,7 +13,7 @@ def is_prime(n: int) -> bool:
     """
 
     prime = True
-    if n < 1:
+    if n <= 1:
         return False
     else:
         for i in range(2, (n // 2 + 1)):
@@ -36,15 +37,15 @@ def gcd(a: int, b: int) -> int:
         return gcd(b, a % b)
 
 
-def multiplicative_inverse(a, m):
-    a = a % m
-    for x in range(1, m):
-        if ((a * x) % m == 1):
+def multiplicative_inverse(e: int, phi: int) -> int:
+    e = e % phi
+    for x in range(1, phi):
+        if (e * x) % phi == 1:
             return x
-    return 1
+    return 0
 
 
-def generate_keypair(p: int, q: int) -> [[int, int], [int, int]]:
+def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError('Both numbers must be prime.')
     elif p == q:
@@ -55,7 +56,7 @@ def generate_keypair(p: int, q: int) -> [[int, int], [int, int]]:
 
     e = random.randrange(1, phi)
 
-    # Use Euclid's Algorithm to verify that e and phi(n) are comprime
+    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
@@ -67,4 +68,4 @@ def generate_keypair(p: int, q: int) -> [[int, int], [int, int]]:
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
 
-    return [[e, n], [d, n]]
+    return (e, n), (d, n)
