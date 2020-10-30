@@ -39,11 +39,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    final = []
-    for i in range((len(values) + n - 1) // n):
-        r1 = values[(i * n): ((i + 1) * n)]
-        final.append(r1)
-    return final
+    return [values[(i * n): ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
 
 
 def get_row(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
@@ -55,9 +51,7 @@ def get_row(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    num = pos[0]
-    row = grid[num]
-    return row
+    return grid[pos[0]]
 
 
 def get_col(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
@@ -69,12 +63,7 @@ def get_col(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    num = pos[1]
-    b = []
-    for i in range(len(grid[0])):
-        myrow = grid[i]
-        b.append(myrow[num])
-    return b
+    return [grid[i][pos[1]] for i in range(len(grid[0]))]
 
 
 def get_block(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
@@ -90,12 +79,7 @@ def get_block(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
 
     bigrow = pos[0] // 3
     bigcol = pos[1] // 3
-    final = []
-    for i in range(bigrow * 3, bigrow * 3 + 3):
-        myrow = grid[i]
-        for j in range(bigcol * 3, bigcol * 3 + 3):
-            final.append(myrow[j])
-    return final
+    return [grid[i][j] for i in range(bigrow * 3, bigrow * 3 + 3) for j in range(bigcol * 3, bigcol * 3 + 3)]
 
 
 def find_empty_positions(grid: List[List[str]]) -> Optional[Tuple[int, int]]:
@@ -159,25 +143,19 @@ def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
         ['2', '8', '7', '4', '1', '9', '6', '3', '5'], 
         ['3', '4', '5', '2', '8', '6', '1', '7', '9']] """
 
-    solve_sudoku(grid)
+    i, j = find_empty_positions(grid)
+    if i == -1:
+        return grid  # all pos are filled
+    for e in find_possible_values(grid, (i, j)):
+        grid[i][j] = e
+        if solve(grid):
+            return grid
+        grid[i][j] = '.'  # go back
 
     if find_empty_positions(grid) != (-1, -1):
         return None  # if the puzzle is unsolvable
 
     return grid
-
-
-def solve_sudoku(grid, i=0, j=0) -> bool:
-    i, j = find_empty_positions(grid)
-    if i == -1:
-        return True  # all pos are filled
-    for e in find_possible_values(grid, (i, j)):
-        grid[i][j] = e
-        if solve_sudoku(grid, i, j):
-            return True
-        grid[i][j] = '.'  # go back
-
-    return False
 
 
 def check_solution(solution: List[List[str]]) -> bool:
@@ -192,12 +170,6 @@ def check_solution(solution: List[List[str]]) -> bool:
                         get_col(solution, pos).count(k) != 1):
                     return False
     return True
-
-
-def find_random_place(grid: List[List[str]]) -> Tuple[int, int]:
-    x = random.randrange(0, 9)
-    y = random.randrange(0, 9)
-    return x, y
 
 
 def generate_sudoku(N: int) -> List[List[str]]:
@@ -221,15 +193,16 @@ def generate_sudoku(N: int) -> List[List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid = []
-    for i in range(9):
-        grid.append(["."] * 9)
+
+    grid = [["."] * 9 for i in range(9)]
 
     grid = solve(grid)
-    numplaces = 81-N  # number of places to be assigned a new value
-    i=0
+    numplaces = 81 - N  # number of places to be assigned a new value
+    i = 0
     while i < numplaces:
-        z = tuple(find_random_place(grid))
+        x = random.randrange(0, 9)
+        y = random.randrange(0, 9)
+        z = x, y
         if grid[z[0]][z[1]] != '.':
             newval = "."
             grid[z[0]][z[1]] = newval
