@@ -43,7 +43,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    return [values[(i * n): ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+    return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
 
 
 def get_row(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
@@ -123,9 +123,9 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
     result = set()
     for i in possible_values:
         if (
-                (get_block(grid, pos).count(i) == 0)
-                and (get_row(grid, pos).count(i) == 0)
-                and (get_col(grid, pos).count(i) == 0)
+            (get_block(grid, pos).count(i) == 0)
+            and (get_row(grid, pos).count(i) == 0)
+            and (get_col(grid, pos).count(i) == 0)
         ):
             result.add(i)
     return result
@@ -176,9 +176,9 @@ def check_solution(solution: List[List[str]]) -> bool:
             for k in set("123456789"):
                 pos = (i, j)
                 if (
-                        (get_block(solution, pos).count(k) != 1)
-                        or (get_row(solution, pos).count(k) != 1)
-                        or (get_col(solution, pos).count(k) != 1)
+                    (get_block(solution, pos).count(k) != 1)
+                    or (get_row(solution, pos).count(k) != 1)
+                    or (get_col(solution, pos).count(k) != 1)
                 ):
                     return False
     return True
