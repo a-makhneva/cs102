@@ -15,7 +15,21 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    shift = shift % 26  # 26 = number of letters in the english alphabet
+
+    for i in range(0, len(plaintext)):
+        letter = plaintext[i: i + 1]
+        x = ord(letter)
+
+        if (x in range(ord('A'), ord('Z') - shift + 1)) or (x in range(ord('a'), ord('z') - shift + 1)):  # main body
+            x += shift
+        elif (x in range(ord('Z') - shift + 1, ord('Z') + 1)) or (
+                x in range(ord('z') - shift + 1, ord('z') + 1)):  # tail (xyz)
+            x = x - 26 + shift
+        else:  # other cases
+            x = x
+
+        ciphertext += chr(x)
     return ciphertext
 
 
@@ -33,14 +47,38 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    shift %= 26  # 26 = number of letters in the eng alphabet
+
+    for i in range(0, len(ciphertext)):
+        letter = ciphertext[i: i + 1]
+        x = ord(letter)
+
+        if (x in range(ord('A') + shift, ord('Z')+1)) or (x in range(ord('a') + shift, ord('z') + 1)):  # main body
+            x -= shift
+        elif (x in range(ord('A'), ord('A') + shift)) or (x in range(ord('a'), ord('a') + shift)):  # head (abc)
+            x = x + 26 - shift
+        else:  # other cases
+            x = x
+
+        plaintext += chr(x)
     return plaintext
 
 
-def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
+def caesar_breaker(ciphertext: str, dictionary: tp.Set[str]) -> int:
     """
-    Brute force breaking a Caesar cipher.
+    >>> d = {"python", "java", "ruby"}
+    >>> caesar_breaker("python", d)
+    0
+    >>> caesar_breaker("sbwkrq", d)
+    3
     """
     best_shift = 0
-    # PUT YOUR CODE HERE
+
+    for i in range(27):
+        if decrypt_caesar(ciphertext, i) in dictionary:
+            best_shift = i
+            break
+        else:
+            best_shift = 404  # not found
+
     return best_shift
