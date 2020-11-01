@@ -174,7 +174,7 @@ def check_solution(solution: List[List[str]]) -> bool:
     for i in range(0, 9):
         for j in range(0, 9):
             for k in set("123456789"):
-                pos = (i, j)
+                pos = i, j
                 if (
                     (get_block(solution, pos).count(k) != 1)
                     or (get_row(solution, pos).count(k) != 1)
@@ -210,13 +210,13 @@ def generate_sudoku(N: int) -> List[List[str]]:
 
     grid = solve(grid)
     numplaces = 81 - N  # number of places to be assigned a new value
-    _ = 0
-    while _ < numplaces:
+    i = 0
+    while i < numplaces:
         rand_pos = random.randrange(0, 9), random.randrange(0, 9)
         if grid[rand_pos[0]][rand_pos[1]] != ".":
             newval = "."
             grid[rand_pos[0]][rand_pos[1]] = newval
-            _ += 1
+            i += 1
     return grid
 
 
