@@ -133,7 +133,7 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
     return result
 
 
-def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
+def solve(grid: List[List[str]]) -> [List[List[str]]]:
     """ Решение пазла, заданного в grid """
     """Как решать Судоку? 
     1. Найти свободную позицию 
