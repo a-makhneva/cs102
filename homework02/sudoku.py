@@ -159,12 +159,12 @@ def solve(grid: List[List[str]]) -> List[List[str]]:
         return grid  # all pos are filled
     for e in find_possible_values(grid, (i, j)):
         grid[i][j] = e
-        if solve(grid) != [['99'], ['99']]:
+        if solve(grid) != [["99"], ["99"]]:
             return grid
-        grid[i][j] = '.'  # go back
+        grid[i][j] = "."  # go back
 
     if find_empty_positions(grid) != (-1, -1):
-        return [['99'], ['99']]  # if the puzzle is unsolvable
+         return [["99"], ["99"]]  # if the puzzle is unsolvable
 
     return grid
 
