@@ -177,7 +177,7 @@ def check_solution(solution: List[List[str]]) -> bool:
         for j in range(0, 9):
             for k in set("123456789"):
                 pos = (i, j)
-                 if (
+                if (
                     (get_block(solution, pos).count(k) != 1)
                     or (get_row(solution, pos).count(k) != 1)
                     or (get_col(solution, pos).count(k) != 1)
