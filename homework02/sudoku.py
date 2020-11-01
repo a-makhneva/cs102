@@ -133,7 +133,7 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
     return result
 
 
-def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
+def solve(grid: List[List[str]]) -> List[List[str]]:
     """ Решение пазла, заданного в grid """
     """Как решать Судоку? 
     1. Найти свободную позицию 
@@ -186,7 +186,7 @@ def check_solution(solution: List[List[str]]) -> bool:
     return True
 
 
-def generate_sudoku(N: int) -> Optional[List[List[str]]]:
+def generate_sudoku(N: int) -> List[List[str]]:
     """Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
