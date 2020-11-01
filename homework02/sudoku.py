@@ -90,7 +90,7 @@ def get_block(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
     ]
 
 
-def find_empty_positions(grid: List[List[str]]) -> Optional[Tuple[int, int]]:
+def find_empty_positions(grid: List[List[str]]) -> Tuple[int, int]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
     (0, 2)
