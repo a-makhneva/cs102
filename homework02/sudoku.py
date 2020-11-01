@@ -5,7 +5,6 @@ import typing as tp
 
 T = tp.TypeVar("T")
 
-
 def create_grid(puzzle: str) -> List[List[str]]:
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
@@ -107,7 +106,6 @@ def find_empty_positions(grid: List[List[str]]) -> Tuple[int, int]:
             if myrow[j] == ".":
                 x = (i, j)
                 return x
-
     return x
 
 
