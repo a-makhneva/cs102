@@ -43,7 +43,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+    return [values[(i * n): ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
 
 
 def get_row(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
@@ -99,15 +99,14 @@ def find_empty_positions(grid: List[List[str]]) -> Tuple[int, int]:
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    x = (-1, -1)  # not found
+    pos = -1, -1  # not found
     for i in range(len(grid)):
         myrow = grid[i]
 
         for j in range(len(myrow)):
             if myrow[j] == ".":
-                x = (i, j)
-                return x
-    return x
+                return i, j
+    return pos
 
 
 def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str]:
@@ -120,13 +119,13 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
     >>> values == {'2', '5', '9'}
     True
     """
-    p = set("123456789")
+    possible_values = set("123456789")
     result = set()
-    for i in p:
+    for i in possible_values:
         if (
-            (get_block(grid, pos).count(i) == 0)
-            and (get_row(grid, pos).count(i) == 0)
-            and (get_col(grid, pos).count(i) == 0)
+                (get_block(grid, pos).count(i) == 0)
+                and (get_row(grid, pos).count(i) == 0)
+                and (get_col(grid, pos).count(i) == 0)
         ):
             result.add(i)
     return result
@@ -177,9 +176,9 @@ def check_solution(solution: List[List[str]]) -> bool:
             for k in set("123456789"):
                 pos = (i, j)
                 if (
-                    (get_block(solution, pos).count(k) != 1)
-                    or (get_row(solution, pos).count(k) != 1)
-                    or (get_col(solution, pos).count(k) != 1)
+                        (get_block(solution, pos).count(k) != 1)
+                        or (get_row(solution, pos).count(k) != 1)
+                        or (get_col(solution, pos).count(k) != 1)
                 ):
                     return False
     return True
@@ -207,19 +206,17 @@ def generate_sudoku(N: int) -> List[List[str]]:
     True
     """
 
-    grid = [["."] * 9 for i in range(9)]
+    grid = [["."] * 9 for _ in range(9)]
 
     grid = solve(grid)
     numplaces = 81 - N  # number of places to be assigned a new value
-    i = 0
-    while i < numplaces:
-        x = random.randrange(0, 9)
-        y = random.randrange(0, 9)
-        z = x, y
-        if grid[z[0]][z[1]] != ".":
+    _ = 0
+    while _ < numplaces:
+        rand_pos = random.randrange(0, 9), random.randrange(0, 9)
+        if grid[rand_pos[0]][rand_pos[1]] != ".":
             newval = "."
-            grid[z[0]][z[1]] = newval
-            i += 1
+            grid[rand_pos[0]][rand_pos[1]] = newval
+            _ += 1
     return grid
 
 
