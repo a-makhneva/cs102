@@ -164,7 +164,7 @@ def solve(grid: List[List[str]]) -> List[List[str]]:
         grid[i][j] = "."  # go back
 
     if find_empty_positions(grid) != (-1, -1):
-         return [["99"], ["99"]]  # if the puzzle is unsolvable
+        return [["99"], ["99"]]  # if the puzzle is unsolvable
 
     return grid
 
