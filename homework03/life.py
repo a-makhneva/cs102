@@ -27,7 +27,7 @@ class GameOfLife:
         parser = argparse.ArgumentParser()
         parser.add_argument("--rows", type=int, help="number of rows in grid")
         parser.add_argument("--cols", type=int, help="number of columns in grid")
-         parser.add_argument(
+         parser.add_argument (
             "--max_generations", type=int, help="maximum number of generations in the game"
         )
         parser.add_argument("--height", default=480, help="height of game field in pixels")
