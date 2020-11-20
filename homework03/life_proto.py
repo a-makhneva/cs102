@@ -13,7 +13,7 @@ T = tp.TypeVar("T")
 
 class GameOfLife:
     def __init__(
-            self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
+        self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
     ) -> None:
         self.width = width
         self.height = height
@@ -98,13 +98,27 @@ class GameOfLife:
         for i in range(0, self.cell_height):
             for j in range(0, self.cell_width):
                 if self.grid[i][j] == 0:
-                    pygame.draw.rect(self.screen, pygame.Color('white'),
-                                     (j * self.cell_size + 1, i * self.cell_size + 1, self.cell_size - 1,
-                                      self.cell_size - 1))
+                    pygame.draw.rect(
+                        self.screen,
+                        pygame.Color("white"),
+                        (
+                            j * self.cell_size + 1,
+                            i * self.cell_size + 1,
+                            self.cell_size - 1,
+                            self.cell_size - 1,
+                        ),
+                    )
                 else:
-                    pygame.draw.rect(self.screen, pygame.Color('green'),
-                                     (j * self.cell_size + 1, i * self.cell_size + 1, self.cell_size - 1,
-                                      self.cell_size - 1))
+                     pygame.draw.rect(
+                        self.screen,
+                        pygame.Color("green"),
+                        (
+                            j * self.cell_size + 1,
+                            i * self.cell_size + 1,
+                            self.cell_size - 1,
+                            self.cell_size - 1,
+                        ),
+                    )
         pygame.display.flip()
 
     def get_neighbours(self, cell: Cell) -> Cells:
@@ -127,8 +141,10 @@ class GameOfLife:
             for j in (-1, 0, 1):
                 neighbour_row = cell[0] + i
                 neighbour_col = cell[1] + j
-                if ((0 <= neighbour_col < self.cell_width) and (0 <= neighbour_row < self.cell_height)) and not (
-                        i == 0 and j == 0):
+                if (
+                    (0 <= neighbour_col < self.cell_width)
+                    and (0 <= neighbour_row < self.cell_height)
+                ) and not (i == 0 and j == 0):
                     # print(neighbour_row, neighbour_col)
                     mycells.append(self.grid[neighbour_row][neighbour_col])
         return mycells
@@ -144,7 +160,7 @@ class GameOfLife:
         """
 
         def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-            return [values[(i * n): ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+             return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
 
         def alive(mycell: Cell) -> int:
             cur_cell = self.grid[mycell[0]][mycell[1]]
@@ -158,6 +174,6 @@ class GameOfLife:
         return group(newgrid, self.cell_width)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     game = GameOfLife(320, 240, 20)
     game.run()
