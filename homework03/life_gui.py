@@ -2,6 +2,7 @@ import pygame
 from life import GameOfLife
 from pygame.locals import *
 from life_console import UI
+
 # import pygame_gui
 import argparse
 
