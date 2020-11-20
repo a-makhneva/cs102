@@ -3,7 +3,6 @@ import random
 import typing as tp
 import copy
 import argparse
-
 import pygame
 from pygame.locals import *
 
