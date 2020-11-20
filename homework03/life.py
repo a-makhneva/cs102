@@ -67,7 +67,7 @@ class GameOfLife:
                 neighbour_row = cell[0] + i
                 neighbour_col = cell[1] + j
                 if ((0 <= neighbour_col < self.cols) and (0 <= neighbour_row < self.rows)) and not (
-                      i == 0 and j == 0
+                    i == 0 and j == 0
                 ):
                     mycells.append(self.curr_generation[neighbour_row][neighbour_col])
         return mycells
