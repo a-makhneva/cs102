@@ -4,7 +4,7 @@ import typing as tp
 import copy
 import argparse
 
-import pygame 
+import pygame
 from pygame.locals import *
 
 Cell = tp.Tuple[int, int]
@@ -49,7 +49,7 @@ class GameOfLife:
             self.max_generations = self.args.max_generations
         # Текущее число поколений
         self.generations = 1
-        return None # type: ignore
+        return None  # type: ignore
 
     def create_grid(self, randomize: bool = False) -> Grid:
         grid = [[0] * self.cols for i in range(self.rows)]
@@ -96,7 +96,7 @@ class GameOfLife:
 
     @property
     def is_max_generations_exceeded(self) -> bool:
-        return self.generations >= self.max_generations # type: ignore
+        return self.generations >= self.max_generations  # type: ignore
 
     @property
     def is_changing(self) -> bool:
