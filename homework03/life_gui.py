@@ -70,7 +70,7 @@ class GUI(UI):
                         ),
                     )
                 else:
-                     pygame.draw.rect(
+                    pygame.draw.rect(
                         self.screen,
                         pygame.Color("green"),
                         (
