@@ -52,7 +52,7 @@ class GameOfLife:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
             self.draw_lines()
 
@@ -64,6 +64,7 @@ class GameOfLife:
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
+        return None  # type: ignore
 
     def create_grid(self, randomize: bool = False) -> Grid:
         """
