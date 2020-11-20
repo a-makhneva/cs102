@@ -83,12 +83,12 @@ class GameOfLife:
         """
 
         grid = [[0] * self.cell_width for i in range(self.cell_height)]
-        if not randomize:  # if false
-            return grid
         if randomize:  # if true
             for i in range(0, self.cell_height):
                 for j in range(0, self.cell_width):
                     grid[i][j] = random.randrange(0, 2)
+            return grid
+        else:
             return grid
 
     def draw_grid(self) -> None:
