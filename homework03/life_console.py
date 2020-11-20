@@ -7,7 +7,6 @@ import argparse
 
 
 class UI(abc.ABC):
-
     def __init__(self, life: GameOfLife) -> None:
         self.life = life
 
@@ -17,7 +16,6 @@ class UI(abc.ABC):
 
 
 class Console(UI):
-
     def __init__(self, life: GameOfLife) -> None:
         super().__init__(life)
         self.life = life
