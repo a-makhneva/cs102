@@ -7,6 +7,7 @@ import argparse
 
 
 class UI(abc.ABC):
+
     def __init__(self, life: GameOfLife) -> None:
         self.life = life
 
@@ -16,6 +17,7 @@ class UI(abc.ABC):
 
 
 class Console(UI):
+
     def __init__(self, life: GameOfLife) -> None:
         super().__init__(life)
         self.life = life
@@ -28,9 +30,9 @@ class Console(UI):
         for i in range(0, self.life.rows):
             for j in range(0, self.life.cols):
                 if self.life.curr_generation[i][j] == 1:
-                    screen.addch(i + 1, j + 1, "*")
+                    screen.addch(i + 1, j + 1, '*')
                 else:
-                    screen.addch(i + 1, j + 1, " ")
+                    screen.addch(i + 1, j + 1, ' ')
 
     def run(self) -> None:
         screen = curses.initscr()
