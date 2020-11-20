@@ -39,7 +39,7 @@ class Console(UI):
         self.draw_grid(win)
         win.refresh()
         time.sleep(5)
-        for i in range(0, self.life.max_generations):
+        for i in range(0, self.life.max_generations):  # type: ignore
             if self.life.is_changing:
                 # self.life.curr_generation = self.life.get_next_generation()
                 self.draw_grid(win)
