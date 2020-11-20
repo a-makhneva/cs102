@@ -30,9 +30,9 @@ class Console(UI):
         for i in range(0, self.life.rows):
             for j in range(0, self.life.cols):
                 if self.life.curr_generation[i][j] == 1:
-                    screen.addch(i + 1, j + 1, '*')
+                    screen.addch(i + 1, j + 1, "*")
                 else:
-                    screen.addch(i + 1, j + 1, ' ')
+                    screen.addch(i + 1, j + 1, " ")
 
     def run(self) -> None:
         screen = curses.initscr()
