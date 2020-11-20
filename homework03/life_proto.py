@@ -170,7 +170,7 @@ class GameOfLife:
                 return 1
             else:
                 return 0
-            
+
         newgrid = [alive((i, j)) for i in range(self.cell_height) for j in range(self.cell_width)]
         return group(newgrid, self.cell_width)
 
