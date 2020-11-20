@@ -39,7 +39,7 @@ class GameOfLife:
         for y in range(0, self.height, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
 
-    def run(self) -> None:
+    def run(self):
         """ Запустить игру """
         pygame.init()
         clock = pygame.time.Clock()
@@ -64,7 +64,7 @@ class GameOfLife:
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
-        return None  # type: ignore
+        # return None  # type: ignore
 
     def create_grid(self, randomize: bool = False) -> Grid:
         """
