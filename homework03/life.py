@@ -53,12 +53,12 @@ class GameOfLife:
 
     def create_grid(self, randomize: bool = False) -> Grid:
         grid = [[0] * self.cols for i in range(self.rows)]
-        if not randomize:  # if false
-            return grid
         if randomize:  # if true
             for i in range(0, self.rows):
                 for j in range(0, self.cols):
                     grid[i][j] = random.randrange(0, 2)
+            return grid
+        else:
             return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
