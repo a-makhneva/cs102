@@ -95,20 +95,20 @@ class GUI(UI):
         running = True
         while running and self.life.is_changing and not self.life.is_max_generations_exceeded:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:  # type: ignore
                     running = False
 
-                if event.type == KEYUP:
+                if event.type == pygame.KEYUP:  # type: ignore
                     pause = True
                 while pause:
-                    if event.type == MOUSEBUTTONUP:
+                    if event.type == pygame.MOUSEBUTTONUP:  # type: ignore
                         mouse_pos = pygame.mouse.get_pos()
                         cell_row = mouse_pos[1] // self.cell_size
                         cell_col = mouse_pos[0] // self.cell_size
                         self.life.curr_generation[cell_row][cell_col] = 1
                         self.draw_grid()
                     for event in pygame.event.get():
-                        if event.type == KEYUP:
+                        if event.type == pygame.KEYUP:  # type: ignore
                             pause = not pause
 
             self.draw_lines()
