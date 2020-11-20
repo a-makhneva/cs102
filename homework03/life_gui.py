@@ -34,10 +34,7 @@ class GUI(UI):
             self.cell_size = cell_size
 
         # Устанавливаем размер окна
-        self.screen_size = (
-            self.width,
-            self.height,
-        )  # self.life.cols * cell_size, self.life.rows * cell_size
+        self.screen_size = self.width, self.height  # self.life.cols * cell_size, self.life.rows * cell_size
         # Создание нового окна
         self.screen = pygame.display.set_mode(self.screen_size)
 
@@ -59,27 +56,13 @@ class GUI(UI):
         for i in range(0, self.life.rows):
             for j in range(0, self.life.cols):
                 if self.life.curr_generation[i][j] == 0:
-                    pygame.draw.rect(
-                        self.screen,
-                        pygame.Color("white"),
-                        (
-                            j * self.cell_size + 1,
-                            i * self.cell_size + 1,
-                            self.cell_size - 1,
-                            self.cell_size - 1,
-                        ),
-                    )
+                    pygame.draw.rect(self.screen, pygame.Color('white'),
+                                     (j * self.cell_size + 1, i * self.cell_size + 1, self.cell_size - 1,
+                                      self.cell_size - 1))
                 else:
-                    pygame.draw.rect(
-                        self.screen,
-                        pygame.Color("green"),
-                        (
-                            j * self.cell_size + 1,
-                            i * self.cell_size + 1,
-                            self.cell_size - 1,
-                            self.cell_size - 1,
-                        ),
-                    )
+                    pygame.draw.rect(self.screen, pygame.Color('green'),
+                                     (j * self.cell_size + 1, i * self.cell_size + 1, self.cell_size - 1,
+                                      self.cell_size - 1))
         pygame.display.flip()
 
     def run(self) -> None:
