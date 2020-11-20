@@ -109,7 +109,7 @@ class GameOfLife:
                         ),
                     )
                 else:
-                     pygame.draw.rect(
+                    pygame.draw.rect(
                         self.screen,
                         pygame.Color("green"),
                         (
@@ -160,7 +160,7 @@ class GameOfLife:
         """
 
         def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-             return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+            return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
 
         def alive(mycell: Cell) -> int:
             cur_cell = self.grid[mycell[0]][mycell[1]]
@@ -170,6 +170,7 @@ class GameOfLife:
                 return 1
             else:
                 return 0
+            
         newgrid = [alive((i, j)) for i in range(self.cell_height) for j in range(self.cell_width)]
         return group(newgrid, self.cell_width)
 
