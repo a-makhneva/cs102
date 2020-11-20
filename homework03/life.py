@@ -109,8 +109,8 @@ class GameOfLife:
         f = open(filename, "r")
         grid_from_file = f.read()
         f.close()
-        new_game.curr_generation = grid_from_file # type: ignore
-        new_game.prev_generation = copy.deepcopy(grid_from_file) # type: ignore
+        new_game.curr_generation = grid_from_file  # type: ignore
+        new_game.prev_generation = copy.deepcopy(grid_from_file)  # type: ignore
         return new_game
 
     def save(self, filename: pathlib.Path) -> None:
