@@ -16,10 +16,10 @@ T = tp.TypeVar("T")
 
 class GameOfLife:
     def __init__(
-            self,
-            size: tp.Tuple[int, int],
-            randomize: bool = True,
-            max_generations: tp.Optional[float] = float("inf"),
+        self,
+        size: tp.Tuple[int, int],
+        randomize: bool = True,
+        max_generations: tp.Optional[float] = float("inf"),
     ) -> None:
 
         # Размер клеточного поля
@@ -27,7 +27,9 @@ class GameOfLife:
         parser = argparse.ArgumentParser()
         parser.add_argument("--rows", type=int, help="number of rows in grid")
         parser.add_argument("--cols", type=int, help="number of columns in grid")
-        parser.add_argument("--max_generations", type=int, help="maximum number of generations in the game")
+         parser.add_argument(
+            "--max_generations", type=int, help="maximum number of generations in the game"
+        )
         parser.add_argument("--height", default=480, help="height of game field in pixels")
         parser.add_argument("--width", default=640, help="width of game field in pixels")
         parser.add_argument("--cell_size", default=10, help="cell-size in pixels")
@@ -65,13 +67,14 @@ class GameOfLife:
                 neighbour_row = cell[0] + i
                 neighbour_col = cell[1] + j
                 if ((0 <= neighbour_col < self.cols) and (0 <= neighbour_row < self.rows)) and not (
-                        i == 0 and j == 0):
+                      i = 0 and j == 0
+                ):
                     mycells.append(self.curr_generation[neighbour_row][neighbour_col])
         return mycells
 
     def get_next_generation(self) -> Grid:
         def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-            return [values[(i * n): ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+            return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
 
         def alive(mycell: Cell) -> int:
             cur_cell = self.curr_generation[mycell[0]][mycell[1]]
@@ -102,7 +105,7 @@ class GameOfLife:
     def from_file(filename: pathlib.Path) -> "GameOfLife":
         new_game = GameOfLife((640, 480), True, 5)
 
-        f = open(filename, 'r')
+        f = open(filename, "r")
         grid_from_file = f.read()
         f.close()
         new_game.curr_generation = grid_from_file
@@ -110,6 +113,6 @@ class GameOfLife:
         return new_game
 
     def save(self, filename: pathlib.Path) -> None:
-        f = open(filename, 'w')
-        f.write(''.join([str(elem) for elem in self.curr_generation]))
+        f = open(filename, "w")
+        f.write("".join([str(elem) for elem in self.curr_generation]))
         f.close()
