@@ -4,8 +4,6 @@ import typing as tp
 import copy
 import argparse
 import pygame
-from pygame.locals import *
-from argparse import Namespace
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
@@ -15,6 +13,9 @@ T = tp.TypeVar("T")
 
 
 class GameOfLife:
+    """ " game of life business logic separated;
+    cli arguments can be used to alter game parameters"""
+
     def __init__(
         self,
         size: tp.Tuple[int, int],
@@ -34,13 +35,24 @@ class GameOfLife:
         self.generations = 1
 
     def parsing(self):
+        """parses the cli arguments and stores them
+        to alter game parameters according to user's needs"""
+
         parser = argparse.ArgumentParser()
 
         parser.add_argument(
-            "--rows", dest="self.rows", action="store", type=int, help="number of rows in grid"
+            "--rows",
+            dest="self.rows",
+            action="store",
+            type=int,
+            help="number of rows in grid",
         )
         parser.add_argument(
-            "--cols", dest="self.cols", action="store", type=int, help="number of columns in grid"
+            "--cols",
+            dest="self.cols",
+            action="store",
+            type=int,
+            help="number of columns in grid",
         )
         parser.add_argument(
             "--max-generations",
@@ -84,16 +96,20 @@ class GameOfLife:
         #     self.max_generations = args.max_generations
 
     def create_grid(self, randomize: bool = False) -> Grid:
-        grid = [[0] * self.cols for i in range(self.rows)]
+        """creates a random grid of '1's and '0's to set up
+        a random game field"""
+
+        grid = [[0] * self.cols for _ in range(self.rows)]
         if randomize:  # if true
             for i in range(0, self.rows):
                 for j in range(0, self.cols):
                     grid[i][j] = random.randrange(0, 2)
-            return grid
-        else:
-            return grid
+        return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
+        """counts the number of neighbours each cell has
+        in order to figure out if life should appear or disappear"""
+
         mycells = []
         for i in (-1, 0, 1):
             for j in (-1, 0, 1):
@@ -106,21 +122,28 @@ class GameOfLife:
         return mycells
 
     def get_next_generation(self) -> Grid:
-        def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-            return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+        """creates a new life generation (a logical grid)
+        based on the number of neighbours a cell has"""
+
+        def group(values: tp.List[T], c_width: int) -> tp.List[tp.List[T]]:
+            return [
+                values[(i * c_width) : ((i + 1) * c_width)]
+                for i in range((len(values) + c_width - 1) // c_width)
+            ]
 
         def alive(mycell: Cell) -> int:
             cur_cell = self.curr_generation[mycell[0]][mycell[1]]
             num_neigh = sum(self.get_neighbours(mycell))
             if (num_neigh == 3) or ((cur_cell == 1) and (num_neigh == 2)):
                 return 1
-            else:
-                return 0
+            return 0
 
         newgrid = [alive((i, j)) for i in range(self.rows) for j in range(self.cols)]
         return group(newgrid, self.cols)
 
     def step(self) -> None:
+        """ makes one game step """
+
         self.prev_generation = copy.deepcopy(self.curr_generation)
         self.curr_generation = self.get_next_generation()
         self.generations += 1
@@ -128,19 +151,23 @@ class GameOfLife:
 
     @property
     def is_max_generations_exceeded(self) -> bool:
+        """ checks if the max-generations parameter is exceeded """
+
         return self.generations >= self.max_generations  # type: ignore
 
     @property
     def is_changing(self) -> bool:
+        """checks if the game field is changing or not;
+        according to game rules, if there are no changes, the game ends"""
         return self.curr_generation != self.prev_generation
 
     @staticmethod
     def from_file(filename: pathlib.Path) -> "GameOfLife":
         new_game = GameOfLife((640, 480), True, 5)
 
-        f = open(filename, "r")
-        grid_from_file = f.read()
-        f.close()
+        file = open(filename, "r")
+        grid_from_file = file.read()
+        file.close()
         new_game.curr_generation = grid_from_file  # type: ignore
         new_game.prev_generation = copy.deepcopy(grid_from_file)  # type: ignore
         return new_game

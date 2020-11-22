@@ -1,28 +1,29 @@
 import abc
+from ui import UI
+
 import curses
-import time
 import curses.ascii
+
+import time
 from life import GameOfLife
 
 
-class UI(abc.ABC):
-    def __init__(self, life: GameOfLife) -> None:
-        self.life = life
-
-    @abc.abstractmethod
-    def run(self) -> None:
-        pass
-
-
 class Console(UI):
+    """ the console version for the game of life business logic model """
+
     def __init__(self, life: GameOfLife) -> None:
         super().__init__(life)
         self.life = life
 
     def draw_borders(self, screen) -> None:
+        """ creates a chic game field border """
+
         screen.border(0)
 
     def draw_grid(self, screen) -> None:
+        """fills the grid with '*' (cells that are alive) and spaces
+        (cells that are dead) based on the logical grid"""
+
         # tst = self.life.rows
         for i in range(0, self.life.rows):
             for j in range(0, self.life.cols):
@@ -37,8 +38,8 @@ class Console(UI):
         self.draw_borders(win)
         self.draw_grid(win)
         win.refresh()
-        time.sleep(5)
-        for i in range(0, self.life.max_generations):  # type: ignore
+        time.sleep(1)
+        for _ in range(0, self.life.max_generations):  # type: ignore
             if self.life.is_changing:
                 # self.life.curr_generation = self.life.get_next_generation()
                 self.draw_grid(win)

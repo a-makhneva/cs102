@@ -1,8 +1,6 @@
 import random
 import typing as tp
-
 import pygame
-from pygame.locals import *
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
@@ -12,6 +10,8 @@ T = tp.TypeVar("T")
 
 
 class GameOfLife:
+    """ a simple python game of life prototype (gui) """
+
     def __init__(
         self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
     ) -> None:
@@ -34,10 +34,10 @@ class GameOfLife:
 
     def draw_lines(self) -> None:
         """ Отрисовать сетку """
-        for x in range(0, self.width, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
-        for y in range(0, self.height, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
+        for col in range(0, self.width, self.cell_size):
+            pygame.draw.line(self.screen, pygame.Color("black"), (col, 0), (col, self.height))
+        for row in range(0, self.height, self.cell_size):
+            pygame.draw.line(self.screen, pygame.Color("black"), (0, row), (self.width, row))
 
     def run(self):
         """ Запустить игру """
@@ -82,14 +82,12 @@ class GameOfLife:
             Матрица клеток размером `cell_height` х `cell_width`.
         """
 
-        grid = [[0] * self.cell_width for i in range(self.cell_height)]
+        grid = [[0] * self.cell_width for _ in range(self.cell_height)]
         if randomize:  # if true
             for i in range(0, self.cell_height):
                 for j in range(0, self.cell_width):
                     grid[i][j] = random.randrange(0, 2)
-            return grid
-        else:
-            return grid
+        return grid
 
     def draw_grid(self) -> None:
         """
@@ -157,11 +155,13 @@ class GameOfLife:
         ----------
         out : Grid
             Новое поколение клеток.
-
         """
 
-        def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-            return [values[(i * n) : ((i + 1) * n)] for i in range((len(values) + n - 1) // n)]
+        def group(values: tp.List[T], c_width: int) -> tp.List[tp.List[T]]:
+            return [
+                values[(i * c_width) : ((i + 1) * c_width)]
+                for i in range((len(values) + c_width - 1) // c_width)
+            ]
 
         def alive(mycell: Cell) -> int:
             cur_cell = self.grid[mycell[0]][mycell[1]]
@@ -169,8 +169,7 @@ class GameOfLife:
 
             if (num_neigh == 3) or ((cur_cell == 1) and (num_neigh == 2)):
                 return 1
-            else:
-                return 0
+            return 0
 
         newgrid = [alive((i, j)) for i in range(self.cell_height) for j in range(self.cell_width)]
         return group(newgrid, self.cell_width)

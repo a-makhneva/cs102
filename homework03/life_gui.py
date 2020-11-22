@@ -1,17 +1,18 @@
 import pygame
 from life import GameOfLife
-from pygame.locals import *
 from life_console import UI
 
 
 class GUI(UI):
+    """ the gui version for the game of life business logic model """
+
     def __init__(self, life: GameOfLife, cell_size: int = 20, speed: int = 5) -> None:
         super().__init__(life)
 
-        # Устанавливаем размер окна
-        self.screen_size = self.width, self.height  # type: ignore
         self.width = self.life.cols * cell_size
         self.height = self.life.rows * cell_size
+        # Устанавливаем размер окна
+        self.screen_size = self.width, self.height  # type: ignore
         # Создание нового окна
         self.screen = pygame.display.set_mode(self.screen_size)
 
@@ -25,12 +26,15 @@ class GUI(UI):
         self.cell_size = cell_size
 
     def draw_lines(self) -> None:
-        for x in range(0, self.width, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
-        for y in range(0, self.height, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
+        """ Отрисовать сетку """
+        for col in range(0, self.width, self.cell_size):
+            pygame.draw.line(self.screen, pygame.Color("black"), (col, 0), (col, self.height))
+        for row in range(0, self.height, self.cell_size):
+            pygame.draw.line(self.screen, pygame.Color("black"), (0, row), (self.width, row))
 
     def draw_grid(self) -> None:
+        """ draws the coloured cells in an opened up window """
+
         for i in range(0, self.life.rows):
             for j in range(0, self.life.cols):
                 if self.life.curr_generation[i][j] == 0:
