@@ -2,8 +2,6 @@ import pygame
 from life import GameOfLife
 from pygame.locals import *
 from life_console import UI
-import pygame_gui
-import argparse
 
 
 class GUI(UI):
@@ -11,20 +9,20 @@ class GUI(UI):
         super().__init__(life)
 
         # Устанавливаем размер окна
-        self.screen_size = (
-            self.width,
-            self.height,
-        )  # self.life.cols * cell_size, self.life.rows * cell_size
+        self.screen_size = self.width, self.height  # type: ignore
+        self.width = self.life.cols * cell_size
+        self.height = self.life.rows * cell_size
         # Создание нового окна
         self.screen = pygame.display.set_mode(self.screen_size)
 
         # Вычисляем количество ячеек по вертикали и горизонтали
-        self.life.cols = self.width // self.cell_size
-        self.life.rows = self.height // self.cell_size
+        # self.life.cols = self.width // self.cell_size
+        # self.life.rows = self.height // self.cell_size
 
         # Скорость протекания игры
         self.speed = speed
         self.life.curr_generation = self.life.create_grid(True)
+        self.cell_size = cell_size
 
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
@@ -72,20 +70,20 @@ class GUI(UI):
         running = True
         while running and self.life.is_changing and not self.life.is_max_generations_exceeded:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
 
-                if event.type == KEYUP:
+                if event.type == pygame.KEYUP:
                     pause = True
                 while pause:
-                    if event.type == MOUSEBUTTONUP:
+                    if event.type == pygame.MOUSEBUTTONUP:
                         mouse_pos = pygame.mouse.get_pos()
                         cell_row = mouse_pos[1] // self.cell_size
                         cell_col = mouse_pos[0] // self.cell_size
                         self.life.curr_generation[cell_row][cell_col] = 1
                         self.draw_grid()
                     for event in pygame.event.get():
-                        if event.type == KEYUP:
+                        if event.type == pygame.KEYUP:
                             pause = not pause
 
             self.draw_lines()

@@ -3,7 +3,6 @@ import curses
 import time
 import curses.ascii
 from life import GameOfLife
-import argparse
 
 
 class UI(abc.ABC):

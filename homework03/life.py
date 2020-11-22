@@ -30,11 +30,8 @@ class GameOfLife:
         self.curr_generation = self.create_grid(randomize=randomize)
         # Максимальное число поколений
         self.max_generations = max_generations  # int(args.max_generations)
-        # if self.args.max_generations:
-        #     self.max_generations = self.args.max_generations
         # Текущее число поколений
         self.generations = 1
-        # return None  # type: ignore
 
     def parsing(self):
         parser = argparse.ArgumentParser()
@@ -79,6 +76,12 @@ class GameOfLife:
 
         args = parser.parse_args()
         return args
+        # if args.rows:
+        #     self.rows = int(args.rows)
+        # if args.cols:
+        #     self.cols = int(args.cols)
+        # if args.max_generations:
+        #     self.max_generations = args.max_generations
 
     def create_grid(self, randomize: bool = False) -> Grid:
         grid = [[0] * self.cols for i in range(self.rows)]
