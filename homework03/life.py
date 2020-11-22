@@ -5,6 +5,7 @@ import copy
 import argparse
 import pygame
 from pygame.locals import *
+from argparse import Namespace
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
@@ -22,33 +23,62 @@ class GameOfLife:
     ):
 
         # Размер клеточного поля
-        self.rows, self.cols = size  # (int(self.args.rows), int(self.args.cols))
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--rows", type=int, help="number of rows in grid")
-        parser.add_argument("--cols", type=int, help="number of columns in grid")
-        parser.add_argument(
-            "--max_generations", type=int, help="maximum number of generations in the game"
-        )
-        parser.add_argument("--height", default=480, help="height of game field in pixels")
-        parser.add_argument("--width", default=640, help="width of game field in pixels")
-        parser.add_argument("--cell_size", default=10, help="cell-size in pixels")
-        self.args = parser.parse_args()
-        if self.args.rows:
-            self.rows = self.args.rows
-        if self.args.cols:
-            self.cols = self.args.cols
-
+        self.rows, self.cols = size
         # Предыдущее поколение клеток
         self.prev_generation = self.create_grid()
         # Текущее поколение клеток
         self.curr_generation = self.create_grid(randomize=randomize)
         # Максимальное число поколений
         self.max_generations = max_generations  # int(args.max_generations)
-        if self.args.max_generations:
-            self.max_generations = self.args.max_generations
+        # if self.args.max_generations:
+        #     self.max_generations = self.args.max_generations
         # Текущее число поколений
         self.generations = 1
         # return None  # type: ignore
+
+    def parsing(self):
+        parser = argparse.ArgumentParser()
+
+        parser.add_argument(
+            "--rows", dest="self.rows", action="store", type=int, help="number of rows in grid"
+        )
+        parser.add_argument(
+            "--cols", dest="self.cols", action="store", type=int, help="number of columns in grid"
+        )
+        parser.add_argument(
+            "--max-generations",
+            type=int,
+            dest="self.max_generations",
+            action="store",
+            help="maximum number of generations in the game",
+        )
+        parser.add_argument(
+            "--height",
+            default=480,
+            type=float,
+            dest="self.height",
+            action="store",
+            help="height of game field in pixels",
+        )
+        parser.add_argument(
+            "--width",
+            default=640,
+            type=float,
+            dest="self.width",
+            action="store",
+            help="width of game field in pixels",
+        )
+        parser.add_argument(
+            "--cell-size",
+            default=10,
+            type=int,
+            dest="self.cell_size",
+            action="store",
+            help="cell-size in pixels",
+        )
+
+        args = parser.parse_args()
+        return args
 
     def create_grid(self, randomize: bool = False) -> Grid:
         grid = [[0] * self.cols for i in range(self.rows)]

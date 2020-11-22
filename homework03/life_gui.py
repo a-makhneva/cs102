@@ -2,37 +2,13 @@ import pygame
 from life import GameOfLife
 from pygame.locals import *
 from life_console import UI
-
-# import pygame_gui
+import pygame_gui
 import argparse
 
 
 class GUI(UI):
     def __init__(self, life: GameOfLife, cell_size: int = 20, speed: int = 5) -> None:
         super().__init__(life)
-        # parser = argparse.ArgumentParser()
-        # parser.add_argument("--height", default=480, help="height of game field in pixels")
-        # parser.add_argument("--width", default=640, help="width of game field in pixels")
-        # parser.add_argument("--cell_size", default=10, help="cell-size in pixels")
-        # parser.add_argument("--rows", type=int, help="number of rows in grid")
-        # parser.add_argument("--cols", type=int,  help="number of columns in grid")
-        # parser.add_argument("--max_generations", type=int, help="maximum number of generations in the game")
-        # args = parser.parse_args()
-        self.life = life
-        if self.life.args.width:
-            self.width = int(self.life.args.width)
-        else:
-            self.width = self.life.cols * cell_size
-
-        if self.life.args.height:
-            self.height = int(self.life.args.height)
-        else:
-            self.height = self.life.rows * cell_size
-
-        if self.life.args.cell_size:
-            self.cell_size = int(self.life.args.cell_size)
-        else:
-            self.cell_size = cell_size
 
         # Устанавливаем размер окна
         self.screen_size = (
@@ -96,20 +72,20 @@ class GUI(UI):
         running = True
         while running and self.life.is_changing and not self.life.is_max_generations_exceeded:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:  # type: ignore
+                if event.type == QUIT:
                     running = False
 
-                if event.type == pygame.KEYUP:  # type: ignore
+                if event.type == KEYUP:
                     pause = True
                 while pause:
-                    if event.type == pygame.MOUSEBUTTONUP:  # type: ignore
+                    if event.type == MOUSEBUTTONUP:
                         mouse_pos = pygame.mouse.get_pos()
                         cell_row = mouse_pos[1] // self.cell_size
                         cell_col = mouse_pos[0] // self.cell_size
                         self.life.curr_generation[cell_row][cell_col] = 1
                         self.draw_grid()
                     for event in pygame.event.get():
-                        if event.type == pygame.KEYUP:  # type: ignore
+                        if event.type == KEYUP:
                             pause = not pause
 
             self.draw_lines()
@@ -121,7 +97,8 @@ class GUI(UI):
 
             pygame.display.flip()
             clock.tick(self.speed)
-            
+
+
 if __name__ == "__main__":
     life = GameOfLife((48, 64), True, 50)
     ui = GUI(life)
