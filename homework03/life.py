@@ -30,7 +30,7 @@ class GameOfLife:
         # Текущее поколение клеток
         self.curr_generation = self.create_grid(randomize=randomize)
         # Максимальное число поколений
-        self.max_generations = max_generations  # int(args.max_generations)
+        self.max_generations = max_generations
         # Текущее число поколений
         self.generations = 1
 
@@ -88,12 +88,6 @@ class GameOfLife:
 
         args = parser.parse_args()
         return args
-        # if args.rows:
-        #     self.rows = int(args.rows)
-        # if args.cols:
-        #     self.cols = int(args.cols)
-        # if args.max_generations:
-        #     self.max_generations = args.max_generations
 
     def create_grid(self, randomize: bool = False) -> Grid:
         """creates a random grid of '1's and '0's to set up

@@ -64,7 +64,6 @@ class GameOfLife:
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
-        # return None  # type: ignore
 
     def create_grid(self, randomize: bool = False) -> Grid:
         """
@@ -144,7 +143,6 @@ class GameOfLife:
                     (0 <= neighbour_col < self.cell_width)
                     and (0 <= neighbour_row < self.cell_height)
                 ) and not (i == 0 and j == 0):
-                    # print(neighbour_row, neighbour_col)
                     mycells.append(self.grid[neighbour_row][neighbour_col])
         return mycells
 

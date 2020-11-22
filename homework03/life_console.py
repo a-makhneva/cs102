@@ -24,7 +24,6 @@ class Console(UI):
         """fills the grid with '*' (cells that are alive) and spaces
         (cells that are dead) based on the logical grid"""
 
-        # tst = self.life.rows
         for i in range(0, self.life.rows):
             for j in range(0, self.life.cols):
                 if self.life.curr_generation[i][j] == 1:
@@ -41,7 +40,6 @@ class Console(UI):
         time.sleep(1)
         for _ in range(0, self.life.max_generations):  # type: ignore
             if self.life.is_changing:
-                # self.life.curr_generation = self.life.get_next_generation()
                 self.draw_grid(win)
                 self.life.step()
                 win.refresh()
