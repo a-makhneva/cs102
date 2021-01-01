@@ -25,8 +25,8 @@ def hash_object(data: bytes, fmt: str, write: bool = False) -> str:
     if write:
         mypath = repo_find(Path.cwd()) / "objects"
         os.chdir(str(mypath))
-        header = mypath / result[0:2]
-        header.mkdir(parents=True, exist_ok=True)
+        header = mypath / result[0:2]  # type: ignore
+        header.mkdir(parents=True, exist_ok=True)  # type: ignore
         os.chdir(str(header))
         body = result[2:]
         myfile = open(body, "wb")
@@ -39,19 +39,19 @@ def hash_object(data: bytes, fmt: str, write: bool = False) -> str:
 
 
 def resolve_object(obj_name: object, gitdir: object) -> object:
-    if not (4 <= len(obj_name) <= 40):  # length check
+    if not (4 <= len(obj_name) <= 40):  # length check  # type: ignore
         raise Exception(f"Not a valid object name {obj_name}")
     result = []
     oldpath = Path.cwd().absolute()
-    mypath = gitdir / "objects" / obj_name[0:2]  # git path /objects/ hash folder name
-    myname = obj_name[2:]  # hash file name
+    mypath = gitdir / "objects" / obj_name[0:2]  # git path /objects/ hash folder name  # type: ignore
+    myname = obj_name[2:]  # hash file name  # type: ignore
     os.chdir(mypath.absolute())
     for root, dirs, files in os.walk(
         Path.cwd(), topdown=False
     ):  # check all files in the folder git/objects/header
         for name in files:
             if name.startswith(myname):
-                result.append(obj_name[0:2] + name)
+                result.append(obj_name[0:2] + name)  # type: ignore
     if result:  # result list is not empty? return it
         os.chdir(oldpath)
         return result
@@ -67,8 +67,8 @@ def find_object(obj_name: str, gitdir: pathlib.Path) -> str:
 def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
     MyObjects = resolve_object(sha, gitdir)
     oldpath = Path.cwd().absolute()
-    result = tuple()
-    for obj in MyObjects:
+    result = tuple()  # type: ignore
+    for obj in MyObjects:  # type: ignore
         header = gitdir / "objects" / sha[0:2]
         os.chdir(str(header))
         body = sha[2:]
@@ -84,7 +84,7 @@ def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
         result += (decoded_header, unpacked_content_body)
         myfile.close()
     os.chdir(oldpath)
-    return result
+    return result  # type: ignore
 
 
 def read_tree(data: bytes) -> tp.List[tp.Tuple[int, str, str]]:
@@ -110,7 +110,7 @@ def read_tree(data: bytes) -> tp.List[tp.Tuple[int, str, str]]:
         result.append(
             mode.decode() + " " + object_type + " " + sha.hex() + "\t" + object_name.decode()
         )
-    return result
+    return result  # type: ignore
 
 
 def cat_file(obj_name: str, pretty: bool = True) -> None:
@@ -121,9 +121,9 @@ def cat_file(obj_name: str, pretty: bool = True) -> None:
     if object_type == "tree":
         mytree = read_tree(myobject[1])
         for rec in mytree:
-            first_word = rec.split()[0]
+            first_word = rec.split()[0]  # type: ignore
             if len(first_word) < 6:
-                rec = "0" * (6 - len(first_word)) + rec
+                rec = "0" * (6 - len(first_word)) + rec  # type: ignore
             print(rec)
     elif object_type == "commit":
         mycommit = commit_parse(myobject[1])

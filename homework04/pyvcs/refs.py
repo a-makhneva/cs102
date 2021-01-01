@@ -33,7 +33,7 @@ def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
     # 6.otherwise, refs / remotes / < refname > / HEAD if it exists.
 
     if refname == "HEAD":
-        return resolve_head(gitdir)
+        return resolve_head(gitdir)  # type: ignore
     elif Path(gitdir / "refs" / refname).exists():
         mypath = gitdir / "refs" / refname
     elif Path(gitdir / "tags" / refname).exists():
