@@ -6,6 +6,7 @@ from unittest.mock import patch
 import pyvcs
 from pyvcs.index import GitIndexEntry, ls_files, read_index, update_index, write_index
  from pyvcs.repo import repo_create
+ 
 
 @unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "Нужна версия пакета 0.4.0 и выше")
 class GitIndexEntryTestCase(TestCase):
