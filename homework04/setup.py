@@ -1,6 +1,5 @@
-from setuptools import setup
-
 import pyvcs
+from setuptools import setup
 
 AUTHOR = "A. Makhneva"
 AUTHOR_EMAIL = "a.d.makhneva@gmail.com"
