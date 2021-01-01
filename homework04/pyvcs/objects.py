@@ -43,7 +43,9 @@ def resolve_object(obj_name: object, gitdir: object) -> object:
         raise Exception(f"Not a valid object name {obj_name}")
     result = []
     oldpath = Path.cwd().absolute()
-    mypath = gitdir / "objects" / obj_name[0:2]  # git path /objects/ hash folder name  # type: ignore
+    mypath = (
+        gitdir / "objects" / obj_name[0:2]
+    )  # git path /objects/ hash folder name  # type: ignore
     myname = obj_name[2:]  # hash file name  # type: ignore
     os.chdir(mypath.absolute())
     for root, dirs, files in os.walk(
