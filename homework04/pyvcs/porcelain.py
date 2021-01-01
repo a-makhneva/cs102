@@ -20,6 +20,7 @@ def add(gitdir: pathlib.Path, paths: tp.List[pathlib.Path]) -> None:
     # write = True.
     update_index(gitdir, paths, True)
 
+
 def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) -> str:
     # Коммит читает индекс (read_index),
     # пишет дерево (write_tree)
@@ -31,7 +32,7 @@ def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) 
     # если HEAD откреплен (detached),
     # иначе ветки куда указывает HEAD (get_ref)
     myindex = read_index(gitdir)
-    mytree = write_tree(gitdir, myindex, '')
+    mytree = write_tree(gitdir, myindex, "")
     myhead = resolve_head(gitdir)
     mycommit = commit_tree(gitdir, mytree, message, myhead, author)
     if is_detached(gitdir):
@@ -40,12 +41,15 @@ def commit(gitdir: pathlib.Path, message: str, author: tp.Optional[str] = None) 
         update_ref(gitdir, resolve_head(gitdir), mycommit)
     pass
 
+
 def checkout(gitdir: pathlib.Path, obj_name: str) -> None:
     entries = read_index(gitdir)
     for entry in entries:
         path = entry.name
         os.remove(path)
     my_obj = find_object(obj_name, gitdir)
+
+
 #     ...вопрос: какие файлы должны удаляться при чекауте и как их найти?
 #
 # ответ: Должны удаляться файлы, которые есть в индексе. Для чтения индекса у нас есть функция read_index,
@@ -63,10 +67,10 @@ def checkout(gitdir: pathlib.Path, obj_name: str) -> None:
 # 2. Найти коммит на который делаем checkout
 # 3. Извлечь из коммита ссылку на tree
 # 4. Рекурсивно обойти tree и восстановить файлы:
-    # 1.Мы смотрим какие записи есть в индексе и их удаляем из рабочего каталога
-    # 2.Всамыхпервыхзаданияхприводитсяпример, какмыизобъектаможемвосстановитьегосодержимое, например, спомощьюкомандыcat - file.
-    # 3.Восстанавливаемфайлыврабочемкаталогевсоответствиискоммитом, накоторыйхотимпереключиться.\
-    #     Индексунасневалидный, таккаксодержитзаписиофайлах, которыемыудалили, надоегозановосоздать.
-    # 42 и43 могут не делать команду checkout.
+# 1.Мы смотрим какие записи есть в индексе и их удаляем из рабочего каталога
+# 2.Всамыхпервыхзаданияхприводитсяпример, какмыизобъектаможемвосстановитьегосодержимое, например, спомощьюкомандыcat - file.
+# 3.Восстанавливаемфайлыврабочемкаталогевсоответствиискоммитом, накоторыйхотимпереключиться.\
+#     Индексунасневалидный, таккаксодержитзаписиофайлах, которыемыудалили, надоегозановосоздать.
+# 42 и43 могут не делать команду checkout.
 # 5. Воссоздать индекс
 # 6. Обновить ссылку, содержащуюся в HEAD

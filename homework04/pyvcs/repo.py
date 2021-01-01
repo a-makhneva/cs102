@@ -1,8 +1,8 @@
+import argparse
 import os
 import pathlib
 import typing as tp
 from pathlib import *
-import argparse
 
 
 def parse():
@@ -28,7 +28,7 @@ def parse():
 
     # This is the code to use if git dir name is to be read from the environment variable
 
-    gd = os.getenv('GIT_DIR', '.git')
+    gd = os.getenv("GIT_DIR", ".git")
     return gd
 
 
@@ -36,7 +36,9 @@ def repo_find(workdir: tp.Union[str, pathlib.Path] = ".") -> pathlib.Path:
     # tmp = os.walk(workdir) # I do this to print the whole tree for debug purpose
     # for i in tmp:
     #     print(i)
-    if isinstance(workdir, str): #this is to convert workdir argument to type "Path" is it comes as "str"
+    if isinstance(
+        workdir, str
+    ):  # this is to convert workdir argument to type "Path" is it comes as "str"
         workdir1 = Path(workdir)
     else:
         workdir1 = workdir
@@ -45,25 +47,27 @@ def repo_find(workdir: tp.Union[str, pathlib.Path] = ".") -> pathlib.Path:
     mypath = workdir1 / myname
     if mypath.exists():
         return mypath
-    elif workdir1.parent.parent.exists() and (workdir1.parent.parent != Path('.')):
+    elif workdir1.parent.parent.exists() and (workdir1.parent.parent != Path(".")):
         return repo_find(workdir1.parent.parent)
     else:
-        raise Exception('Not a git repository')
+        raise Exception("Not a git repository")
     pass
 
 
 def repo_create(workdir: tp.Union[str, pathlib.Path]) -> pathlib.Path:
-    """" creates a repo with correct structure according to the task,
+    """ " creates a repo with correct structure according to the task,
     can create a git repo with any name, inside any given workdir,
-    does not create a repo if the given workdir is a file """
-    if isinstance(workdir, str): #this is to convert workdir argument to type "Path" is it comes as "str"
+    does not create a repo if the given workdir is a file"""
+    if isinstance(
+        workdir, str
+    ):  # this is to convert workdir argument to type "Path" is it comes as "str"
         workdir1 = Path(workdir)
     else:
         workdir1 = workdir
 
     if Path.is_dir(workdir1):
         mypath = workdir1
-    elif workdir == '':
+    elif workdir == "":
         mypath = Path.cwd()
     else:
         raise Exception(f"{workdir1} is not a directory")
@@ -88,7 +92,8 @@ def repo_create(workdir: tp.Union[str, pathlib.Path]) -> pathlib.Path:
 
     config = open("config", "a")
     config.write(
-        "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = false\n")
+        "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = false\n"
+    )
     config.close()
 
     desc = open("description", "a")
@@ -99,5 +104,5 @@ def repo_create(workdir: tp.Union[str, pathlib.Path]) -> pathlib.Path:
     # for i in tmp:
     #     print(i)
 
-    os.chdir('..')  # I go back to make Rel.Path valid again otherwise the unittest won't work
+    os.chdir("..")  # I go back to make Rel.Path valid again otherwise the unittest won't work
     return gitdir
