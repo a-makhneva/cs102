@@ -1,3 +1,5 @@
+# type: ignore
+
 import os
 import pathlib
 
@@ -14,8 +16,7 @@ class RepoCreateTestCase(TestCase):
         workdir = pathlib.Path(".")
         gitdir = repo.repo_create(workdir)
 
-
-        expected_gitdir = (workdir / ".git")
+        expected_gitdir = workdir / ".git"
         self.assertEqual(expected_gitdir, gitdir)
         self.assertTrue(gitdir.exists())
         self.assertTrue((gitdir / "refs" / "heads").exists())
@@ -39,7 +40,8 @@ class RepoCreateTestCase(TestCase):
         self.assertTrue(description.exists())
         with description.open() as f:
             self.assertEqual(
-                "Unnamed pyvcs repository.\n", f.read(),
+                "Unnamed pyvcs repository.\n",
+                f.read(),
             )
 
     def test_cant_create_repo_if_workdir_is_a_file(self):

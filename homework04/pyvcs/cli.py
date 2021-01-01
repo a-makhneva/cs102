@@ -1,3 +1,5 @@
+# type: ignore
+
 import argparse
 
 from pyvcs.index import ls_files, read_index, update_index

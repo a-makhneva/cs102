@@ -1,3 +1,5 @@
+# type: ignore
+
 import calendar
 import datetime
 import os
