@@ -1,4 +1,5 @@
 import unittest
+
 import pyvcs
 from pyfakefs.fake_filesystem_unittest import TestCase
 from pyvcs.refs import get_ref, is_detached, ref_resolve, resolve_head, update_ref
