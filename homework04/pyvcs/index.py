@@ -168,7 +168,7 @@ def update_index(gitdir: pathlib.Path, paths: tp.List[pathlib.Path], write: bool
         myfile_contents = myfile.read()
         # myfile_contents_encoded = myfile_contents.encode()
         my_file_stat = os.stat(myfilename)
-        st_file_attributes = my_file_stat.st_file_attributes
+        # st_file_attributes = my_file_stat.st_file_attributes
 
         my_entry = GitIndexEntry(
             my_file_stat[ST_CTIME],  # ctime
@@ -182,7 +182,8 @@ def update_index(gitdir: pathlib.Path, paths: tp.List[pathlib.Path], write: bool
             my_file_stat[ST_GID],  # gid
             my_file_stat[ST_SIZE],  # size
             bytes.fromhex(hash_object(myfile_contents, "blob", True)),  # sha
-            st_file_attributes,  # flags
+            0,
+            # st_file_attributes,  # flags
             myfile.name,
         )  # name
         objs[file_nr] = my_entry
