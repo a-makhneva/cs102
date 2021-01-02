@@ -73,13 +73,16 @@ def commit_tree(
     else:
         myauthor = author
 
-    n1 = time.localtime
+        n1 = time.localtime
     time_tuple = n1()[0:10]
     timestamp_ = time.mktime(time_tuple)
     now = datetime.datetime.today()
     tz1 = datetime.datetime.astimezone(now)
     tz1_str = str(tz1)[26:32].replace(":", "")
-    timestamp_tz = str(timestamp_).split(".")[0] + " " + tz1_str
+    if str(timestamp_).index(".") > 0:
+        timestamp_tz = str(timestamp_).split(".")[0] + " " + tz1_str
+    else:
+        timestamp_tz = str(timestamp_) + " " + tz1_str
     data = (
         tree_hash
         + "\nauthor "
