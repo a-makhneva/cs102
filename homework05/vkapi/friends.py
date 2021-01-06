@@ -47,7 +47,7 @@ def get_friends(
         "v": config.VK_CONFIG["version"],
     }
 
-    response = session.get("friends.get", params).json()["response"]
+    response = session.get("friends.get", params=params).json()["response"]
     return FriendsResponse(count=response["count"], items=response["items"])
 
 
