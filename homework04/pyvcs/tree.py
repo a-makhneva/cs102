@@ -15,7 +15,7 @@ from pyvcs.refs import get_ref, is_detached, resolve_head, update_ref
 
 
 def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str = "") -> str:
-    # вброс: Попробую на пальцах описать алгоритм:
+    # Попробую на пальцах описать алгоритм:
     # def write-tree(индекс):
     #     tree_entries = []
     #     пройтись по каждой записи в индексе:
@@ -39,8 +39,10 @@ def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str
         mode = "{:6o}".format(index[i][6])  # output in octal number system
         if myname.find(os.sep) > -1:
 
-            path_first_part = dirname + myname.split(os.sep)[0]
-            path_second_part = myname.split(os.sep)[1:]
+            if len(dirname) > 0:
+                path_first_part = dirname + os.sep + myname.split(os.sep)[0]
+            else:
+                path_first_part = dirname + myname.split(os.sep)[0]
             my_tree_hash = bytes.fromhex(write_tree(gitdir, [index[i]], path_first_part))
             tree_entry = (
                 ("40000").encode() + b" " + path_first_part.encode() + b"\x00" + my_tree_hash
@@ -79,8 +81,7 @@ def commit_tree(
     time_tuple = n1()[0:10]
     timestamp_ = time.mktime(time_tuple)
     now = datetime.datetime.today()
-    tz1 = datetime.datetime.astimezone(now)
-    tz1_str = "+0" + str(n3) + "00"  #  str(tz1)[26:32].replace(':', '')
+    tz1_str = "+0" + str(n3) + "00"
     if str(timestamp_).index(".") > 0:
         timestamp_tz = str(timestamp_).split(".")[0] + " " + tz1_str
     else:
@@ -99,4 +100,4 @@ def commit_tree(
         + message
         + "\n"
     )
-    return hash_object(data.encode(), "commit")
+    return hash_object(data.encode(), "commit", True)

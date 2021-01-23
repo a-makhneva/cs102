@@ -1,9 +1,8 @@
 # type: ignore
-
-import os
 import pathlib
 import typing as tp
 from pathlib import *
+import os
 
 
 def update_ref(gitdir: pathlib.Path, ref: tp.Union[str, pathlib.Path], new_value: str) -> None:
@@ -18,9 +17,8 @@ def update_ref(gitdir: pathlib.Path, ref: tp.Union[str, pathlib.Path], new_value
 
 def symbolic_ref(gitdir: pathlib.Path, name: str, ref: str) -> None:
     with (gitdir / name).open(mode="w") as f:
-        pass
         f.write("ref: {ref}")
-    pass
+    print(ref)
 
 
 def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
@@ -35,7 +33,7 @@ def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
     # 6.otherwise, refs / remotes / < refname > / HEAD if it exists.
 
     if refname == "HEAD":
-        return resolve_head(gitdir)  # type: ignore
+        return resolve_head(gitdir)
     elif Path(gitdir / "refs" / refname).exists():
         mypath = gitdir / "refs" / refname
     elif Path(gitdir / "tags" / refname).exists():
