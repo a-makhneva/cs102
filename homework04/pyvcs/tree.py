@@ -73,12 +73,14 @@ def commit_tree(
     else:
         myauthor = author
 
-        n1 = time.localtime
+    n1 = time.localtime
+    n2 = time.timezone / -3600
+    n3 = int(n2)
     time_tuple = n1()[0:10]
     timestamp_ = time.mktime(time_tuple)
     now = datetime.datetime.today()
     tz1 = datetime.datetime.astimezone(now)
-    tz1_str = str(tz1)[26:32].replace(":", "")
+    tz1_str = "+0" + str(n3) + "00"  #  str(tz1)[26:32].replace(':', '')
     if str(timestamp_).index(".") > 0:
         timestamp_tz = str(timestamp_).split(".")[0] + " " + tz1_str
     else:
