@@ -21,7 +21,7 @@ def ego_network(
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
 
-    if friends is None:
+    if not friends:
         friends = get_friends(user_id=user_id).items
 
     network = []
