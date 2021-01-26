@@ -1,3 +1,4 @@
+# type: ignore
 import pathlib
 import typing as tp
 from pathlib import *
@@ -31,7 +32,7 @@ def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
     # 5.otherwise, refs / remotes / < refname > if it exists;
     # 6.otherwise, refs / remotes / < refname > / HEAD if it exists.
 
-    if refname == 'HEAD':
+    if refname == "HEAD":
         return resolve_head(gitdir)
     elif Path(gitdir / "refs" / refname).exists():
         mypath = gitdir / "refs" / refname
@@ -56,10 +57,10 @@ def resolve_head(gitdir: pathlib.Path) -> tp.Optional[str]:
     myfile = open(mypath, "br")
     contents = myfile.read()
     myfile.close()
-    if contents.startswith(b'ref'):
+    if contents.startswith(b"ref"):
         mypath = gitdir.absolute() / contents.strip().split()[1].decode()
     else:
-        mypath = gitdir.absolute() / 'heads'  # here
+        mypath = gitdir.absolute() / "heads"  # here
     try:
         myfile = open(mypath, "br")
         contents = myfile.read()
@@ -78,7 +79,7 @@ def is_detached(gitdir: pathlib.Path) -> bool:
     myfile = open(mypath, "br")
     contents = myfile.read()
     myfile.close()
-    if contents.startswith(b'ref:'):
+    if contents.startswith(b"ref:"):
         return False
     else:
         return True
@@ -89,7 +90,7 @@ def get_ref(gitdir: pathlib.Path) -> str:
     oldpath = Path.cwd().absolute()
     mypath = gitdir
     os.chdir(mypath)
-    HEAD = open("HEAD", 'r')
+    HEAD = open("HEAD", "r")
     file_content = HEAD.read()
     HEAD.close()
     os.chdir(oldpath)
