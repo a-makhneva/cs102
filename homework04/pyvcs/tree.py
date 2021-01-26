@@ -45,7 +45,7 @@ def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str
                 path_first_part = dirname + myname.split(os.sep)[0]
             my_tree_hash = bytes.fromhex(write_tree(gitdir, [index[i]], path_first_part))
             tree_entry = (
-                ("40000").encode() + b" " + path_first_part.encode() + b"\x00" + my_tree_hash
+                    ("40000").encode() + b" " + path_first_part.encode() + b"\x00" + my_tree_hash
             )
             tree_entries.append(tree_entry)
 
@@ -59,19 +59,16 @@ def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str
 
 
 def commit_tree(
-    gitdir: pathlib.Path,
-    tree: str,
-    message: str,
-    parent: tp.Optional[str] = None,
-    author: tp.Optional[str] = None,
+        gitdir: pathlib.Path,
+        tree: str,
+        message: str,
+        parent: tp.Optional[str] = None,
+        author: tp.Optional[str] = None,
 ) -> str:
     tree_hash = "tree " + tree
-    if parent is None:
-        parent_hash = ""
-    else:
-        parent_hash = parent
+
     if author is None:
-        myauthor = ""
+        myauthor = f"{os.getenv('GIT_AUTHOR_NAME')} <{os.getenv('GIT_AUTHOR_EMAIL')}>"
     else:
         myauthor = author
 
@@ -87,17 +84,17 @@ def commit_tree(
     else:
         timestamp_tz = str(timestamp_) + " " + tz1_str
     data = (
-        tree_hash
-        + "\nauthor "
-        + myauthor
-        + " "
-        + timestamp_tz
-        + "\ncommitter "
-        + myauthor
-        + " "
-        + timestamp_tz
-        + "\n\n"
-        + message
-        + "\n"
+            tree_hash
+            + "\nauthor "
+            + myauthor
+            + " "
+            + timestamp_tz
+            + "\ncommitter "
+            + myauthor
+            + " "
+            + timestamp_tz
+            + "\n\n"
+            + message
+            + "\n"
     )
     return hash_object(data.encode(), "commit", True)
