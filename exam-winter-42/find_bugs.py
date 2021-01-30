@@ -10,17 +10,17 @@ class WorkflowFixer:
         taskarray = []
         with open(fname, "r") as ins:
             for line in ins:
-                if line.startswith('task'):
-                    task = []
+                if line.startswith("task"):
+                    task = []  # type: ignore
                     continue
                 elif len(line.strip()) == 0:
                     taskarray.append(task)
                     continue
                 else:
-                    first_letter = line.split('->')[0].strip()
-                    second_letter = line.split('->')[1].strip()
+                    first_letter = line.split("->")[0].strip()
+                    second_letter = line.split("->")[1].strip()
                     task.append([first_letter, second_letter])
-            #taskarray.append(task)
+            # taskarray.append(task)
             return taskarray
 
     @staticmethod
@@ -33,7 +33,7 @@ class WorkflowFixer:
             return False
         return True
 
-    def try_to_fix(self, mylist: tp.List) -> bool:
+    def try_to_fix(self, mylist: tp.List) -> bool:  # type: ignore
         # if self.is_valid(mylist):
         #     return False  #removing validity check and alphabetical sorting
         fixes_list = []
@@ -44,12 +44,12 @@ class WorkflowFixer:
                 fixes_list.append(my_fix)
         if mylist[0][0] != mylist[len(mylist) - 1][1]:
             mylist[len(mylist) - 1][1] = mylist[0][0]
-            my_fix = mylist[i+1]
+            my_fix = mylist[i + 1]
             fixes_list.append(my_fix)
         if len(fixes_list) == 1:
-            print(fixes_list[0][0]+' -> '+ fixes_list[0][1])
+            print(fixes_list[0][0] + " -> " + fixes_list[0][1])
         else:
-            print('V, V, V...')
+            print("V, V, V...")
         pass
 
     def run(self):
@@ -59,5 +59,5 @@ class WorkflowFixer:
 
 
 if __name__ == "__main__":
-    myinstance = WorkflowFixer('tasks.txt')
+    myinstance = WorkflowFixer("tasks.txt")
     myinstance.run()
