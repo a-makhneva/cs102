@@ -6,10 +6,15 @@ from tabulate import tabulate
 def fetch_all(cursor):
     colnames = [desc[0] for desc in cursor.description]
     records = cursor.fetchall()
-    return [{colname: value for colname, value in zip(colnames, record)} for record in records]
+    return [
+        {colname: value for colname, value in zip(colnames, record)}
+        for record in records
+    ]
 
 
-conn = psycopg2.connect("host=127.0.0.1 port=5432 dbname=odscourse user=postgres password=secret")
+conn = psycopg2.connect(
+    "host=127.0.0.1 port=5432 dbname=odscourse user=postgres password=secret"
+)
 cursor = conn.cursor()
 
 query = """
@@ -36,14 +41,14 @@ cursor.execute(query)
 conn.commit()
 pass
 
-with open('adult.csv', 'r') as f:
+with open("adult.csv", "r") as f:
     reader = csv.reader(f)
     # Skip the header row
     next(reader)
     for Id, row in enumerate(reader):
         cursor.execute(
             "INSERT INTO adult_data VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            [Id] + row
+            [Id] + row,
         )
 conn.commit()
 
@@ -119,9 +124,20 @@ order by native_country, salary;"""
 # print(tabulate(fetch_all(cursor), "keys", "psql"))
 
 
-query_list = [query1, query2, query3, query45, query6, query7, query8, query91, query92, query93, query10]
+query_list = [
+    query1,
+    query2,
+    query3,
+    query45,
+    query6,
+    query7,
+    query8,
+    query91,
+    query92,
+    query93,
+    query10,
+]
 
 for each_query in query_list:
     cursor.execute(each_query)
     print(tabulate(fetch_all(cursor), "keys", "psql"))
-
