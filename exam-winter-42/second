@@ -1,0 +1,5 @@
+task5
+Y -> X
+X -> Z
+Z -> X
+W -> Y
