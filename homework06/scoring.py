@@ -12,9 +12,7 @@ extracts_test: tp.List[str] = []
 labels_test: tp.List[str] = []
 # Train dataset is every 7 rows of 10, others are test
 for i in range(len(rows)):
-    row = (
-        s.query(News).filter(News.id == (i + 1)).first()
-    )  # id is unique and enumerated from id
+    row = s.query(News).filter(News.id == (i + 1)).first()  # id is unique and enumerated from id
     if str(i)[len(str(i)) - 1] in ("0", "1", "2", "3", "4", "5", "6"):
         extracts_train.append(row.title)
         labels_train.append(row.label)
