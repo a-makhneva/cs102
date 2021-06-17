@@ -12,20 +12,27 @@ def extract_news(parser: BeautifulSoup) -> tp.List[tp.Dict[str, tp.Any]]:
     # init the list
     news_list: tp.List[tp.Dict[str, tp.Any]] = []
 
-    authors: tp.List[str] = [i.text for i in parser.body.find_all("a", {"class": "hnuser"})]
+    authors: tp.List[str] = [
+        i.text for i in parser.body.find_all("a", {"class": "hnuser"})
+    ]
     comments: tp.List[tp.Any] = [
         i for i in parser.body.find_all("a") if "item?id=" in i.attrs["href"]
     ]  # get link and assorted garbage
     comments = [
-        i.text for i in comments if (re.match(r"\d+\scomment", i.text) or i.text == "discuss")
+        i.text
+        for i in comments
+        if (re.match(r"\d+\scomment", i.text) or i.text == "discuss")
     ]  # get text
     comment_counts: tp.List[int] = [
         int(i[: i.find("\xa0")]) if not "discuss" in i else 0 for i in comments
     ]  # clean up
     points: tp.List[int] = [
-        int(i.text[: i.text.find(" ")]) for i in parser.body.find_all("span", {"class": "score"})
+        int(i.text[: i.text.find(" ")])
+        for i in parser.body.find_all("span", {"class": "score"})
     ]
-    titles: tp.List[str] = [i.text for i in parser.body.find_all("a", {"class": "storylink"})]
+    titles: tp.List[str] = [
+        i.text for i in parser.body.find_all("a", {"class": "storylink"})
+    ]
     urls: tp.List[str] = [
         i.attrs["href"] for i in parser.body.find_all("a", {"class": "storylink"})
     ]
@@ -44,7 +51,7 @@ def extract_news(parser: BeautifulSoup) -> tp.List[tp.Dict[str, tp.Any]]:
 
 
 def extract_next_page(parser: BeautifulSoup) -> str:
-     # Extract next page URL using href of class "morelink"
+    # Extract next page URL using href of class "morelink"
     morelink: str = parser.body.find("a", {"class": "morelink"}).attrs["href"]
     return morelink
 

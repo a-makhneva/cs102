@@ -16,6 +16,8 @@ def clear(s: str) -> str:
     tokens: tp.List[str] = [
         stemmer.stem(token)
         for token in nltk.word_tokenize(s)
-        if token.isalnum() and not token in nltk.corpus.stopwords.words("english") and not token in ('a', '19')
+        if token.isalnum()
+        and not token in nltk.corpus.stopwords.words("english")
+        and not token in ("a", "19")
     ]
     return " ".join(tokens)

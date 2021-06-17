@@ -25,7 +25,9 @@ def news_list() -> tp.Any:
 @route("/add_label/")  # type: ignore
 def add_label() -> tp.Any:
     s = session()
-    entry = s.query(News).filter(News.id == request.query["id"]).first()  # only one such row exists
+    entry = (
+        s.query(News).filter(News.id == request.query["id"]).first()
+    )  # only one such row exists
     entry.label = request.query["label"]
     s.commit()
     redirect("/news")
@@ -75,7 +77,9 @@ def classify_news() -> tp.Any:
         model = pickle.load(model_file)
     labels = model.predict(X)
     for i, e in enumerate(unclassified):
-        extract = s.query(News).filter(News.id == e[0]).first()  # only one such news extract exists
+        extract = (
+            s.query(News).filter(News.id == e[0]).first()
+        )  # only one such news extract exists
         extract.label = labels[i]
         s.commit()
     rows = s.query(News).filter(News.label != None).order_by(News.label).all()

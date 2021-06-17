@@ -19,11 +19,13 @@ class NaiveBayesClassifier:
         self.priors: tp.Counter[str] = Counter()  # prior probabilities of classes
         self.alpha: float = alpha  # smoothing parameter
         self.unique_words: tp.List[str] = []
-        self.words_per_class: tp.DefaultDict[str, tp.DefaultDict[str, float]] = defaultdict(
+        self.words_per_class: tp.DefaultDict[
+            str, tp.DefaultDict[str, float]
+        ] = defaultdict(defaultdict)
+        self.class_lengths: tp.DefaultDict[str, float] = defaultdict(float)
+        self.word_probs: tp.DefaultDict[str, tp.DefaultDict[str, float]] = defaultdict(
             defaultdict
         )
-        self.class_lengths: tp.DefaultDict[str, float] = defaultdict(float)
-        self.word_probs: tp.DefaultDict[str, tp.DefaultDict[str, float]] = defaultdict(defaultdict)
 
     def fit(self, X: tp.List[str], y: tp.List[str]) -> None:
         """ Fit Naive Bayes classifier according to X, y. """
@@ -47,7 +49,9 @@ class NaiveBayesClassifier:
                         float,
                         {
                             key: value
-                            for (key, value) in zip(list(set(y)), [0 for _ in list(set(y))])
+                            for (key, value) in zip(
+                                list(set(y)), [0 for _ in list(set(y))]
+                            )
                         },
                     )
                     # very hack-y way of assigning 0 encounters to each class in possible classes
@@ -92,13 +96,29 @@ class NaiveBayesClassifier:
         for c in list(set(y_test)):
             if y_test.count(c):
                 true_positives: float = float(
-                    sum([1 for i, e in enumerate(predicted) if e == c and y_test[i] == c])
+                    sum(
+                        [
+                            1
+                            for i, e in enumerate(predicted)
+                            if e == c and y_test[i] == c
+                        ]
+                    )
                 )
                 false_negatives: float = float(
-                    sum([1 for i, e in enumerate(predicted) if e != c and y_test[i] == c])
+                    sum(
+                        [
+                            1
+                            for i, e in enumerate(predicted)
+                            if e != c and y_test[i] == c
+                        ]
+                    )
                 )
-                class_accuracies[c] = true_positives / (true_positives + false_negatives)
-        score: float = sum([i for i in class_accuracies.values()]) / len(list(set(y_test)))
+                class_accuracies[c] = true_positives / (
+                    true_positives + false_negatives
+                )
+        score: float = sum([i for i in class_accuracies.values()]) / len(
+            list(set(y_test))
+        )
         return score
 
 
@@ -110,7 +130,9 @@ if __name__ == "__main__":
         model = NaiveBayesClassifier(alpha=0.1)
         print("Extracting marked news from database...")
         s = session()
-        classified = [(i.title, i.label) for i in s.query(News).filter(News.label != None).all()]
+        classified = [
+            (i.title, i.label) for i in s.query(News).filter(News.label != None).all()
+        ]
         X_train, y_train = [], []
         for label, extract in classified:
             X_train.append(label)
